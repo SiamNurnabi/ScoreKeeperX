@@ -63,7 +63,10 @@
                 </div>
                 <div style="margin-bottom: 2px">
                     <p:outputLabel for="manager" value="Manager"/>
-                    <p:inputText id="manager" value="#{roleView.role.parentRole}"/>
+                    <p:selectOneMenu id="manager" value="#{roleView.roles}" style="width:150px">
+                        <f:selectItem itemLabel="Select Role" itemValue="" noSelectionOption="true"/>
+                        <f:selectItems value="#{roleView.role}"/>
+                    </p:selectOneMenu>
                 </div>
             </div>
             <p:commandButton
