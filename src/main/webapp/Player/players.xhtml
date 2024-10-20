@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Players</title>
+    <!--    <h:outputStylesheet library="webjars" name="primeflex/3.3.1/primeflex.min.css" />-->
+</h:head>
+<h:body>
+    <h:form id="form">
+        <p:commandButton value="Add player"
+                         type="submit"
+                         actionListener="#{playerView.newPlayer()}"
+                         update="dialogForm"
+                         oncomplete="PF('playerDialog').show()"
+
+        />
+
+        <p:dataTable id="players" var="player" value="#{playerView.players}">
+
+            <p:column headerText="FirstName">
+                <h:outputText value="#{player.firstName}"/>
+            </p:column>
+            <p:column headerText="LastName">
+                <h:outputText value="#{player.lastName}"/>
+            </p:column>
+            <p:column headerText="Batting Style">
+                <h:outputText value="#{player.battingStyle}"/>
+            </p:column>
+            <p:column headerText="Bowling Style">
+                <h:outputText value="#{player.bowlingStyle}"/>
+            </p:column>
+            <p:column headerText="Options">
+                <p:commandButton value="Edit"
+                                 actionListener="#{playerView.editPlayer(player)}"
+                                 update="dialogForm"
+                                 oncomplete="PF('playerDialog').show()"/>
+                <p:commandButton value="Delete"
+                                 actionListener="#{playerView.editPlayer(player)}"
+                                 update="dialogForm"
+                                 styleClass="ui-button-danger"
+                                 oncomplete="PF('playerDialog').show()"/>
+
+            </p:column>
+
+        </p:dataTable>
+    </h:form>
+    <h:form id="dialogForm">
+        <p:dialog id="dialog"
+                  header="#{playerView.editMode ? 'Edit player' : 'Add player'}"
+                  widgetVar="playerDialog" width="350"
+                  showEffect="fade"
+                  modal="true">
+            <div style=" height: 300px; margin-bottom: 1px">
+                <div style="margin-bottom: 2px">
+                    <p:outputLabel for="firstName" value="First Name"/>
+                    <p:inputText id="firstName" value="#{playerView.player.firstName}"/>
+                </div>
+                <div style="margin-bottom: 2px">
+                    <p:outputLabel for="lastName" value="Last Name"/>
+                    <p:inputText id="lastName" value="#{playerView.player.lastName}"/>
+                </div>
+                <div style="margin-bottom: 2px">
+                    <p:outputLabel for="battingStyle" value="Batting Style"/>
+                    <p:inputText id="battingStyle" value="#{playerView.player.battingStyle}"/>
+                </div>
+                <div style="margin-bottom: 2px">
+                    <p:outputLabel for="bowlingStyle" value="Bowling Style"/>
+                    <p:inputText id="bowlingStyle" value="#{playerView.player.bowlingStyle}"/>
+                </div>
+            </div>
+            <p:commandButton
+                    value="#{playerView.editMode? 'Edit' : 'Submit'}"
+                    style="width: 5rem"
+                    action="#{playerView.submit()}"
+                    update="form:players"
+                    oncomplete="PF('playerDialog').hide()"
+
+            />
+        </p:dialog>
+    </h:form>
+
+    <h:form id="deleteForm">
+        <p:dialog id="deleteDialog">
+
+        </p:dialog>
+    </h:form>
+
+
+</h:body>
+</html>

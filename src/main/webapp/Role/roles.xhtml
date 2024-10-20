@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Roles</title>
+</h:head>
+<h:body>
+    <h:form id="form">
+        <p:commandButton value="Add Role"
+                         type="submit"
+                         actionListener="#{roleView.add()}"
+                         update="dialogForm"
+                         oncomplete="PF('roleDialog').show()"
+
+        />
+
+        <p:dataTable id="roles" var="role" value="#{roleView.roles}">
+
+            <p:column headerText="Role Name">
+                <h:outputText value="#{role.name}"/>
+            </p:column>
+            <p:column headerText="Description">
+                <h:outputText value="#{role.description}"/>
+            </p:column>
+            <p:column headerText="Manager">
+                <h:outputText value="#{role.parentRole}"/>
+            </p:column>
+            <!--            <p:column headerText="Options">-->
+            <!--                <p:commandButton value="Edit"-->
+            <!--                                 actionListener="#{playerView.editPlayer(player)}"-->
+            <!--                                 update="dialogForm"-->
+            <!--                                 oncomplete="PF('playerDialog').show()"/>-->
+            <!--                <p:commandButton value="Delete"-->
+            <!--                                 actionListener="#{playerView.editPlayer(player)}"-->
+            <!--                                 update="dialogForm"-->
+            <!--                                 styleClass="ui-button-danger"-->
+            <!--                                 oncomplete="PF('playerDialog').show()"/>-->
+
+            <!--            </p:column>-->
+
+        </p:dataTable>
+    </h:form>
+
+    <h:form id="dialogForm">
+        <p:dialog id="dialog"
+                  header="#{roleView.editMode ? 'Edit Role' : 'Add Role'}"
+                  widgetVar="roleDialog" width="350"
+                  showEffect="fade"
+                  modal="true">
+            <div style=" height: 300px; margin-bottom: 1px">
+                <div style="margin-bottom: 2px">
+                    <p:outputLabel for="name" value="Role Name"/>
+                    <p:inputText id="name" value="#{roleView.role.name}"/>
+                </div>
+                <div style="margin-bottom: 2px">
+                    <p:outputLabel for="description" value="Description"/>
+                    <p:inputText id="description" value="#{roleView.role.description}"/>
+                </div>
+                <div style="margin-bottom: 2px">
+                    <p:outputLabel for="manager" value="Manager"/>
+                    <p:inputText id="manager" value="#{roleView.role.parentRole}"/>
+                </div>
+            </div>
+            <p:commandButton
+                    value="#{roleView.editMode? 'Edit' : 'Submit'}"
+                    style="width: 5rem"
+                    action="#{roleView.submit()}"
+                    update="form:roles"
+                    oncomplete="PF('roleDialog').hide()"
+
+            />
+        </p:dialog>
+    </h:form>
+</h:body>
+</html>
